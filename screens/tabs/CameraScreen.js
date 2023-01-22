@@ -27,11 +27,16 @@ export const CameraScreen = () => {
   return (
     <View style={styles.cameraContainer}>
       {cameraPermission === 'authorized' && device && isFocused ? (
-        <Camera
-          device={device}
-          style={StyleSheet.absoluteFill}
-          isActive={isFocused}
-        />
+        <>
+          <Camera
+            device={device}
+            style={StyleSheet.absoluteFill}
+            isActive={isFocused}
+          />
+          <View style={styles.buttons}>
+            <Button title="Take photo" />
+          </View>
+        </>
       ) : (
         <View>
           <Text style={styles.cameraPermissionText}>
@@ -62,5 +67,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+  },
+  buttons: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
   },
 });
