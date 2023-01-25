@@ -2,12 +2,8 @@ import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SnapchatLogo} from '../icons/snapchat_logo';
 import {Button} from 'react-native-paper';
-import {useCallback} from 'react';
 
 export const Home = ({navigation}) => {
-  const handleLogin = useCallback(() => {
-    navigation.replace('Tabs');
-  }, [navigation]);
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
@@ -19,7 +15,7 @@ export const Home = ({navigation}) => {
             mode="contained"
             buttonColor="#fff"
             textColor="#000"
-            onPress={handleLogin}
+            onPress={() => navigation.replace('Tabs')}
             style={styles.buttonOne}>
             <Text style={styles.buttonText}>Log In</Text>
           </Button>
@@ -27,8 +23,9 @@ export const Home = ({navigation}) => {
             mode="contained"
             buttonColor="#2196F3"
             textColor="#fff"
+            onPress={() => console.log('Pressed')}
             style={styles.buttonTwo}>
-            <Text>Sign Up</Text>
+            <Text style={styles.buttonText2}>Sign Up</Text>
           </Button>
         </View>
       </View>

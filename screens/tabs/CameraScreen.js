@@ -31,7 +31,7 @@ export const CameraScreen = () => {
           <Camera
             device={device}
             style={StyleSheet.absoluteFill}
-            isActive={isFocused}
+            isActive={true}
           />
           <View style={styles.buttons}>
             <Button title="Take photo" />
