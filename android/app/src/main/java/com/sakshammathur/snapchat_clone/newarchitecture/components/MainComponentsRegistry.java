@@ -1,4 +1,4 @@
-package com.snapchat_clone.newarchitecture.components;
+package com.sakshammathur.snapchat_clone.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

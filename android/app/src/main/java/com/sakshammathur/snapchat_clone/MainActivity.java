@@ -1,4 +1,4 @@
-package com.snapchat_clone;
+package com.sakshammathur.snapchat_clone;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -12,7 +12,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "snapchat_clone";
+    return "Snapchat Clone";
   }
 
   /**

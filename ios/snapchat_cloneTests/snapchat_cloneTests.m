@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface snapchat_cloneTests : XCTestCase
+@interface SnapchatCloneTests : XCTestCase
 
 @end
 
-@implementation snapchat_cloneTests
+@implementation SnapchatCloneTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {
