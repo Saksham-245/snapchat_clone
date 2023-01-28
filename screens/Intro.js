@@ -1,9 +1,13 @@
 import * as React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {SnapchatLogo} from '../icons/snapchat_logo';
-import {Button} from 'react-native-paper';
+import {useCallback} from 'react';
 
-export const Home = ({navigation}) => {
+export const Intro = ({navigation}) => {
+  const handleLogin = useCallback(() => {
+    navigation.replace('Tabs');
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
@@ -11,22 +15,18 @@ export const Home = ({navigation}) => {
       </View>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonContainer2}>
-          <Button
-            mode="contained"
-            buttonColor="#fff"
-            textColor="#000"
-            onPress={() => navigation.replace('Tabs')}
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={handleLogin}
             style={styles.buttonOne}>
             <Text style={styles.buttonText}>Log In</Text>
-          </Button>
-          <Button
-            mode="contained"
-            buttonColor="#2196F3"
-            textColor="#fff"
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={1}
             onPress={() => console.log('Pressed')}
             style={styles.buttonTwo}>
             <Text style={styles.buttonText2}>Sign Up</Text>
-          </Button>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -62,19 +62,28 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   buttonOne: {
-    borderRadius: 50,
-    borderWidth: 2,
-    paddingHorizontal: 20,
+    borderRadius: 25,
+    paddingHorizontal: 30,
+    paddingVertical: 12,
+    backgroundColor: '#fff',
+    opacity: 1,
   },
   buttonTwo: {
     borderRadius: 25,
-    borderWidth: 2,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    backgroundColor: '#2196F3',
   },
   buttonText: {
     fontSize: 16,
     fontWeight: 'bold',
     paddingHorizontal: 15,
-    opacity: 1,
+    color: '#000',
+  },
+  buttonText2: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingHorizontal: 15,
+    color: '#fff',
   },
 });

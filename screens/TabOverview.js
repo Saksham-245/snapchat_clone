@@ -37,12 +37,7 @@ export const TabOverview = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({color, size}) => (
-            <MaterialIcons
-              name="camera"
-              color={color}
-              size={size}
-              style={{backgroundColor: 'black'}}
-            />
+            <MaterialIcons name="camera" color={color} size={size} />
           ),
         }}
       />
