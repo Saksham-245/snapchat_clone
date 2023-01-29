@@ -1,13 +1,23 @@
-import * as React from 'react';
-import {Button, Linking, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  Button,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useCameraDevices, Camera} from 'react-native-vision-camera';
 import {useIsFocused} from '@react-navigation/native';
-import {useCallback, useEffect} from 'react';
-export const CameraScreen = () => {
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+export const CameraScreen = ({navigation}) => {
   const devices = useCameraDevices();
   const device = devices.back;
   const isFocused = useIsFocused();
-  const [cameraPermission, setCameraPermission] = React.useState(false);
+  const [cameraPermission, setCameraPermission] = useState(false);
+  const camera = React.useRef(null);
+  const [flashMode, setFlashMode] = useState('off');
 
   const grantCameraPermission = useCallback(async () => {
     const permission = await Camera.requestCameraPermission();
@@ -24,6 +34,17 @@ export const CameraScreen = () => {
     }
   }, [isFocused, grantCameraPermission]);
 
+  const takeCameraPhoto = useCallback(async () => {
+    if (camera.current) {
+      const photo = await camera.current.takePhoto({
+        flash: flashMode,
+        quality: 100,
+        orientation: 'portrait',
+      });
+      navigation.navigate('Preview', {photoData: photo});
+    }
+  }, [navigation, flashMode]);
+
   return (
     <View style={styles.cameraContainer}>
       {cameraPermission === 'authorized' && device && isFocused ? (
@@ -33,8 +54,23 @@ export const CameraScreen = () => {
             style={StyleSheet.absoluteFill}
             isActive={true}
           />
-          <View style={styles.buttons}>
-            <Button title="Take photo" />
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                setFlashMode(flashMode === 'off' ? 'on' : 'off');
+              }}>
+              <MaterialCommunityIcons
+                name={flashMode === 'off' ? 'flash-off' : 'flash'}
+                size={30}
+                color={flashMode === 'off' ? 'white' : 'yellow'}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bottomContainer}>
+            <TouchableOpacity
+              onPress={takeCameraPhoto}
+              style={styles.cameraBtn}
+            />
           </View>
         </>
       ) : (
@@ -68,10 +104,16 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  buttons: {
+  cameraBtn: {
+    backgroundColor: 'transparent',
+    borderRadius: 50,
+    width: 60,
+    borderColor: 'white',
+    height: 60,
+    borderWidth: 5,
+  },
+  bottomContainer: {
     position: 'absolute',
     bottom: 10,
-    left: 10,
-    right: 10,
   },
 });
