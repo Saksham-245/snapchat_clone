@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Button,
   Linking,
@@ -11,11 +11,13 @@ import {
 import {useCameraDevices, Camera} from 'react-native-vision-camera';
 import {useIsFocused} from '@react-navigation/native';
 import {useCallback, useEffect} from 'react';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 export const CameraScreen = ({navigation}) => {
   const devices = useCameraDevices();
-  const device = devices.back;
+  let device = devices.back;
   const isFocused = useIsFocused();
-  const [cameraPermission, setCameraPermission] = React.useState(false);
+  const [cameraPermission, setCameraPermission] = useState(false);
   const [flashMode, setFlashMode] = React.useState('off');
 
   const camera = React.useRef(null);
@@ -46,6 +48,13 @@ export const CameraScreen = ({navigation}) => {
     }
   }, [navigation, flashMode]);
 
+  const flipCamera = () => {
+    if (device === devices.back) {
+    } else {
+      console.log('back');
+    }
+  };
+
   if (cameraPermission === 'denied' || cameraPermission === 'undetermined') {
     return (
       <View>
@@ -71,12 +80,8 @@ export const CameraScreen = ({navigation}) => {
             ref={camera}
             photo
           />
-          <View>{/* Top Buttons */}</View>
           <View style={styles.bottomContainer}>
-            <TouchableOpacity
-              onPress={takeCameraPhoto}
-              style={styles.cameraBtn}
-            />
+            <TouchableOpacity onPress={flipCamera} style={styles.cameraBtn} />
           </View>
         </>
       )}
@@ -108,6 +113,28 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     height: 60,
     borderWidth: 5,
+  },
+  topButtons: {
+    position: 'absolute',
+    top: 10,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  topButtonList: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    alignItems: 'center',
+  },
+  rightButtons: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 10,
+    height: '100%',
   },
   bottomContainer: {
     position: 'absolute',
