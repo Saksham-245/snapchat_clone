@@ -1,8 +1,8 @@
-import * as React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {CameraScreen} from './tabs/CameraScreen';
-import {MessageScreen} from './tabs/MessageScreen';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import * as React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { CameraScreen } from "./tabs/CameraScreen";
+import { MessageScreen } from "./tabs/MessageScreen";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const Tabs = createBottomTabNavigator();
 export const TabOverview = () => {
@@ -14,7 +14,7 @@ export const TabOverview = () => {
         fullScreenSwipeEnabled: true,
         inactiveTintColor: 'gray',
         tabBarShowLabel: false,
-        tabBarActiveTintColor: '#e91e63',
+        tabBarActiveTintColor: '#FFFC00',
         tabBarStyle: {
           backgroundColor: 'black',
         },
@@ -37,7 +37,7 @@ export const TabOverview = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({color, size}) => (
-            <MaterialIcons name="camera" color={color} size={size} />
+            <MaterialIcons name="photo-camera" color={color} size={size} />
           ),
         }}
       />

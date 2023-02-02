@@ -1,23 +1,20 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {
-  Button,
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {useCameraDevices, Camera} from 'react-native-vision-camera';
-import {useIsFocused} from '@react-navigation/native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useCallback, useEffect, useState } from "react";
+import { Button, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Camera, useCameraDevices } from "react-native-vision-camera";
+import { useIsFocused } from "@react-navigation/native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const CameraScreen = ({navigation}) => {
   const devices = useCameraDevices();
-  const device = devices.back;
+  const [device, setDevice] = useState(null);
   const isFocused = useIsFocused();
   const [cameraPermission, setCameraPermission] = useState(false);
   const camera = React.useRef(null);
   const [flashMode, setFlashMode] = useState('off');
+
+  useEffect(() => {
+    setDevice(devices.back);
+  }, [devices.back]);
 
   const grantCameraPermission = useCallback(async () => {
     const permission = await Camera.requestCameraPermission();
@@ -36,35 +33,66 @@ export const CameraScreen = ({navigation}) => {
 
   const takeCameraPhoto = useCallback(async () => {
     if (camera.current) {
-      const photo = await camera.current.takePhoto({
+      const photo = await camera.current?.takePhoto({
         flash: flashMode,
         quality: 100,
-        orientation: 'portrait',
       });
       navigation.navigate('Preview', {photoData: photo});
     }
-  }, [navigation, flashMode]);
+  }, [flashMode, navigation]);
+
+  const flipCamera = useCallback(async () => {
+    if (device?.position === 'back') {
+      setDevice(devices.front);
+    } else {
+      setDevice(devices.back);
+    }
+  }, [device?.position, devices?.back, devices?.front]);
 
   return (
     <View style={styles.cameraContainer}>
-      {cameraPermission === 'authorized' && device && isFocused ? (
+      {cameraPermission === 'authorized' && device && isFocused && (
         <>
           <Camera
+            ref={camera}
             device={device}
             style={StyleSheet.absoluteFill}
-            isActive={true}
+            isActive={isFocused}
+            photo={true}
           />
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                setFlashMode(flashMode === 'off' ? 'on' : 'off');
-              }}>
-              <MaterialCommunityIcons
-                name={flashMode === 'off' ? 'flash-off' : 'flash'}
-                size={30}
-                color={flashMode === 'off' ? 'white' : 'yellow'}
-              />
+          <View style={styles.topButtons}>
+            <TouchableOpacity>
+              <MaterialIcons name="face" color={'white'} size={32} />
             </TouchableOpacity>
+            <View style={styles.topRightButtons}>
+              <TouchableOpacity style={{marginBottom: 10}} onPress={flipCamera}>
+                <MaterialIcons
+                  name={
+                    device.position === 'front' ? 'camera-rear' : 'camera-front'
+                  }
+                  size={32}
+                  color="white"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setFlashMode(
+                    device.position === 'back' && flashMode === 'off'
+                      ? 'on'
+                      : 'off',
+                  );
+                }}>
+                <MaterialIcons
+                  name={
+                    device.position === 'back' && flashMode === 'off'
+                      ? 'flash-on'
+                      : 'flash-off'
+                  }
+                  size={32}
+                  color={'white'}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={styles.bottomContainer}>
             <TouchableOpacity
@@ -73,7 +101,8 @@ export const CameraScreen = ({navigation}) => {
             />
           </View>
         </>
-      ) : (
+      )}
+      {cameraPermission === 'denied' && (
         <View>
           <Text style={styles.cameraPermissionText}>
             {cameraPermission === 'denied'
@@ -115,5 +144,17 @@ const styles = StyleSheet.create({
   bottomContainer: {
     position: 'absolute',
     bottom: 10,
+  },
+  topButtons: {
+    display: 'flex',
+    position: 'absolute',
+    top: 40,
+    flexDirection: 'row',
+    width: '100%',
+    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+  },
+  topRightButtons: {
+    display: 'flex',
   },
 });
