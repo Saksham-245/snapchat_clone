@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Camera, useCameraDevices } from "react-native-vision-camera";
-import { useIsFocused } from "@react-navigation/native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  Button,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Camera, useCameraDevices} from 'react-native-vision-camera';
+import {useIsFocused} from '@react-navigation/native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export const CameraScreen = ({navigation}) => {
   const devices = useCameraDevices();
