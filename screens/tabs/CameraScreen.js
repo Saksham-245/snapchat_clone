@@ -27,7 +27,7 @@ export const CameraScreen = ({navigation}) => {
     const permission = await Camera.requestCameraPermission();
 
     if (permission === 'denied') {
-      await Linking.openSettings();
+      await Linking?.openSettings();
     }
     setCameraPermission(permission);
   }, []);
@@ -63,7 +63,7 @@ export const CameraScreen = ({navigation}) => {
           <Camera
             ref={camera}
             device={device}
-            style={StyleSheet.absoluteFill}
+            style={StyleSheet?.absoluteFill}
             isActive={isFocused}
             photo={true}
           />
@@ -123,7 +123,7 @@ export const CameraScreen = ({navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet?.create({
   cameraContainer: {
     flex: 1,
     justifyContent: 'center',

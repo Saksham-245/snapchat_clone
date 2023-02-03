@@ -3,7 +3,7 @@ import {Image, PanResponder, StyleSheet, View} from 'react-native';
 
 function ImagePreview({route}) {
   const photoData = route.params?.photoData;
-  const panResponder = PanResponder.create({
+  const panResponder = PanResponder?.create({
     onMoveShouldSetPanResponder: (evt, gestureState) => {
       return Math.abs(gestureState.dx) > 50;
     },
@@ -24,7 +24,7 @@ function ImagePreview({route}) {
     </View>
   );
 }
-const styles = StyleSheet.create({
+const styles = StyleSheet?.create({
   imagePreview: {
     width: '100%',
     height: '100%',
